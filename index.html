@@ -53,16 +53,16 @@
 
     html, body {
       height: 100%;
-      overflow: hidden;          /* empeche scroll global inutile */
+      overflow: hidden;          /* empeche scroll global */
       font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       transition: background 0.2s, color 0.2s;
     }
 
-    /* Suppression de toute barre horizontale */
     body {
       overflow-x: hidden;
+      position: relative;
       width: 100%;
     }
 
@@ -536,19 +536,21 @@
       color: var(--muted);
     }
 
-    /* CHAT WRAPPER */
+    /* CHAT WRAPPER - input reste collé en bas sans décalage */
     #chat-wrapper {
       flex: 1;
       display: none;
       flex-direction: column;
       overflow: hidden;
       width: 100%;
+      position: relative;
     }
     #chat-area {
       flex: 1;
       overflow-y: auto;
       padding: 16px 0;
       overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
     .messages-container {
       width: 100%;
@@ -556,12 +558,13 @@
       margin: 0 auto;
       padding: 0 12px;
     }
-    /* zone input en bas : meme style que l'accueil et toujours visible */
     #bottom-input-zone {
       width: 100%;
       display: flex;
       justify-content: center;
-      padding: 0 12px 20px;
+      padding: 12px 12px 20px;
+      background: var(--bg);
+      flex-shrink: 0;
     }
     #bottom-input-zone .input-shell {
       max-width: 720px;
@@ -947,17 +950,7 @@
       }
       if (window.innerWidth < 1024) window.toggleSidebar();
     }
-    // FOCUS: s'assurer que la zone de texte est visible au-dessus du clavier
-    function setupScrollOnFocus() {
-      document.addEventListener('focus', (e) => {
-        const target = e.target;
-        if (target && (target.id === 'chat-input' || target.matches('textarea'))) {
-          setTimeout(() => {
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }, 100);
-        }
-      }, true);
-    }
+    // Aucun scrollIntoView agressif : on laisse le navigateur gérer
     function initInput() {
       const clone = inputTemplate.content.cloneNode(true);
       const shell = clone.firstElementChild;
@@ -968,7 +961,6 @@
       textarea.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 120) + 'px'; });
       currentInputShell = shell;
       welcomeInputWrap.appendChild(shell);
-      setupScrollOnFocus();
     }
     function initStars() {
       const container = document.getElementById('logoStars');
