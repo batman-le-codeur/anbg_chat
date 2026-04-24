@@ -474,7 +474,7 @@
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      padding: 16px 0;
+      padding: 16px 0 130px;
       -webkit-overflow-scrolling: touch;
     }
     .messages-container {
@@ -483,23 +483,22 @@
       margin: 0 auto;
       padding: 0 12px;
     }
-
-    /* ── Zone de saisie en bas ── */
     #bottom-input-zone {
-      width: 100%;
-      max-width: 100%;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 90;
       display: flex;
       justify-content: center;
-      /* safe-area-inset-bottom pour les encoches iPhone */
-      padding: 10px 12px max(16px, env(safe-area-inset-bottom));
+      padding: 10px 12px env(safe-area-inset-bottom, 16px);
       background: var(--bg);
-      flex-shrink: 0;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.06);
     }
     #bottom-input-zone .input-shell {
       max-width: 720px;
       width: 100%;
     }
-
     /* ── INPUT SHELL ── */
     .input-shell {
       background: var(--surface);
@@ -979,34 +978,32 @@
       this.style.height = Math.min(this.scrollHeight, 120) + 'px';
     });
 
-    /* ── Clavier mobile : scroll pour garder la zone visible ── */
-    textarea.addEventListener('focus', () => {
-      // Petit délai pour laisser le clavier s'ouvrir
-      setTimeout(() => {
-        shell.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      }, 350);
-    });
-
     currentInputShell = shell;
     welcomeInputWrap.appendChild(shell);
   }
 
-  /* ── Gestion dynamique du clavier virtuel (VisualViewport API) ── */
+  /* ── Clavier virtuel : repositionne la zone de saisie fixe ── */
   function initKeyboardHandler() {
-    if (!window.visualViewport) return;
-    window.visualViewport.addEventListener('resize', () => {
-      // Quand le clavier s'ouvre, visualViewport.height diminue
-      // On ajuste le padding-bottom du bottom-input-zone pour rester visible
-      const vh     = window.visualViewport.height;
-      const total  = window.innerHeight;
-      const keyboardH = Math.max(0, total - vh);
+    const vv = window.visualViewport;
+    if (!vv) return;
 
+    function onViewportChange() {
+      // offsetTop = décalage du viewport visible par rapport au layout viewport
+      // height    = hauteur de la zone visible (diminue quand clavier s'ouvre)
+      // On calcule où placer le bas de la barre de saisie :
+      // bottom = (window.innerHeight - vv.offsetTop - vv.height)
+      // Ce chiffre vaut la hauteur du clavier virtuel.
+      const keyboardH = Math.max(0, window.innerHeight - vv.offsetTop - vv.height);
+      bottomInputZone.style.bottom = keyboardH + 'px';
+
+      // Scrolle le chat vers le bas pour que le dernier message reste visible
       if (isChatStarted) {
-        bottomInputZone.style.paddingBottom = keyboardH > 50
-          ? keyboardH + 'px'
-          : 'max(16px, env(safe-area-inset-bottom))';
+        requestAnimationFrame(() => { chatArea.scrollTop = chatArea.scrollHeight; });
       }
-    });
+    }
+
+    vv.addEventListener('resize', onViewportChange);
+    vv.addEventListener('scroll', onViewportChange);
   }
 
   /* ── Étoiles animées ── */
