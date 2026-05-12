@@ -96,11 +96,18 @@
     .sidebar-menu-btn .icon-close{opacity:0;transform:rotate(-90deg) scale(.6);}
     body.sidebar-open .sidebar-menu-btn .icon-open{opacity:0;transform:rotate(90deg) scale(.6);}
     body.sidebar-open .sidebar-menu-btn .icon-close{opacity:1;transform:rotate(0deg) scale(1);}
-    .header-logo-wrap{display:flex;align-items:center;gap:12px;min-width:0;}
-    .header-logo{width:48px;height:48px;border-radius:8px;border:1px solid rgba(255,255,255,.2);background:white;padding:4px;object-fit:contain;flex-shrink:0;}
-    .header-brand-text{display:flex;flex-direction:column;gap:1px;min-width:0;overflow:hidden;}
-    .header-brand-name{font-size:14px;font-weight:700;color:white;white-space:nowrap;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;}
-    .header-brand-sub{font-size:11px;font-weight:600;color:var(--blue-primary);text-transform:uppercase;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .header-logo-wrap{display:flex;align-items:center;gap:10px;min-width:0;text-decoration:none;cursor:pointer;}
+    .header-logo-container{background:white;border-radius:6px;padding:4px 6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s ease;}
+    .header-logo-wrap:hover .header-logo-container{transform:scale(1.05);}
+    .header-logo-wrap:hover .header-brand-name{text-decoration:underline;text-underline-offset:2px;}
+    .header-logo{width:auto;height:32px;object-fit:contain;display:block;padding:1px 2px;}
+    @media(max-width:640px){.header-logo{padding:0px 1px;}}
+    @media(min-width:640px){.header-logo{height:40px;}}
+    .header-brand-text{display:flex;flex-direction:column;gap:2px;min-width:0;overflow:hidden;}
+    .header-brand-name{font-size:14px;font-weight:500;color:white;white-space:nowrap;letter-spacing:.03em;}
+    @media(max-width:480px){.header-brand-name{white-space:normal;overflow:visible;text-overflow:unset;max-width:140px;line-height:1.2;}}
+    .header-brand-sub{font-size:0.75rem;font-weight:300;color:#7dd3fc;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;margin-top:2px;}
+    @media(max-width:639px){.header-brand-sub{font-size:9px;margin-top:2px;}}
     .header-actions{display:flex;align-items:center;gap:6px;flex-shrink:0;}
     .social-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.08);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,.75);text-decoration:none;transition:background .2s,color .2s;flex-shrink:0;}
     .social-btn:hover{background:rgba(255,255,255,.18);color:white;}
@@ -111,8 +118,14 @@
 
     /* Stars */
     .stars-bg{position:relative;display:inline-block;}
-    .star{position:absolute;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233996d3' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/%3E%3C/svg%3E");background-size:contain;background-repeat:no-repeat;opacity:0;animation:floatStar 3s ease-in-out infinite;pointer-events:none;}
-    @keyframes floatStar{0%{opacity:0;transform:translate(0,0) scale(.5);}20%{opacity:.6;}80%{opacity:.6;}100%{opacity:0;transform:translate(30px,-30px) scale(1.2);}}
+    .star{position:absolute;display:flex;align-items:center;justify-content:center;color:#3996d3;line-height:1;opacity:0;animation:floatStar 2.2s cubic-bezier(.4,0,.2,1) forwards;pointer-events:none;text-shadow:0 0 6px rgba(57,150,211,.7);}
+    @keyframes floatStar{
+      0%  {opacity:0;transform:translate(0,0) scale(.3) rotate(0deg);}
+      15% {opacity:1;}
+      50% {opacity:.9;transform:translate(var(--tx),var(--ty)) scale(1.1) rotate(var(--tr));}
+      85% {opacity:.7;}
+      100%{opacity:0;transform:translate(var(--tx2),var(--ty2)) scale(.6) rotate(var(--tr2));}
+    }
     .gradient-text{background:linear-gradient(135deg,var(--green) 0%,var(--yellow) 45%,var(--blue-light) 80%);background-clip:text;-webkit-background-clip:text;color:transparent;}
 
     /* WELCOME */
@@ -332,8 +345,8 @@
 
     /* RESPONSIVE */
     @media(max-width:640px){.header-brand-name{font-size:12px;}.header-brand-sub{font-size:9px;}.header-logo{width:36px;height:36px;}.social-btn{width:30px;height:30px;}.theme-header-btn{width:30px;height:30px;}.sidebar-menu-btn{width:32px;height:32px;}.welcome-greeting{font-size:22px;}.welcome-emblem{width:110px;height:110px;}.cards-grid{flex-direction:column;align-items:stretch;}.toolbar-link{font-size:10px;padding:4px 8px;}.left-toolbar{gap:6px;}.msg-inner{padding:12px;}.mc-athumb{width:70px;}}
-    @media(max-width:480px){.header-brand-name{display:none;}.header-brand-sub{font-size:10px;letter-spacing:.03em;}}
-    @media(max-width:360px){.header-brand-sub{font-size:9px;letter-spacing:.02em;}}
+    @media(max-width:480px){.header-brand-name{font-size:11px;}}
+    @media(max-width:360px){.header-brand-sub{letter-spacing:.03em;}}
     @media(max-width:380px){.welcome-emblem{width:90px;height:90px;}.welcome-greeting{font-size:19px;}}
   </style>
 </head>
@@ -390,20 +403,22 @@
         <svg class="icon-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
         <svg class="icon-close" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <div class="header-logo-wrap">
-        <img class="header-logo" src="https://www.anbg.online/assets/logo/logo.png" alt="ANBG">
+      <a href="https://www.anbg-ga.com/" target="_blank" class="header-logo-wrap">
+        <div class="header-logo-container">
+          <img class="header-logo" src="https://reclamation-mu63.onrender.com/Logo_anbg.png" alt="ANBG">
+        </div>
         <div class="header-brand-text">
           <div class="header-brand-name">Agence Nationale des Bourses du Gabon</div>
-          <div class="header-brand-sub">Plateforme réclamation</div>
+          <div class="header-brand-sub">Plateforme reclamation</div>
         </div>
-      </div>
+      </a>
     </div>
     <div class="header-actions">
       <a href="https://wa.me/" target="_blank" class="social-btn whatsapp" aria-label="WhatsApp">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       </a>
-      <a href="https://facebook.com/" target="_blank" class="social-btn facebook" aria-label="Facebook">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      <a href="https://www.facebook.com/anbggabon" target="_blank" rel="noopener" class="social-btn facebook" aria-label="Facebook">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7h2.3l.4-2.8h-2.7V9.4c0-.8.2-1.3 1.4-1.3H16V5.6c-.6-.1-1.3-.1-2-.1-2 0-3.4 1.2-3.4 3.5v2.2H8.5V14h2.1v7h2.9Z"/></svg>
       </a>
       <button class="theme-header-btn" id="themeToggle" aria-label="Thème">
         <svg id="themeIcon" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg>
@@ -424,7 +439,7 @@
           <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           <div class="card-content"><div class="card-title">Faire une e-réclamation</div><div class="card-desc">Déposer une réclamation en ligne</div></div>
         </a>
-        <a href="https://www.anbg.online" target="_blank" class="card-link">
+        <a href="https://www.anbg-ga.com/" target="_blank" class="card-link">
           <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
           <div class="card-content"><div class="card-title">Site officiel ANBG</div><div class="card-desc">Actualités et informations</div></div>
         </a>
@@ -893,11 +908,15 @@
     setInterval(()=>{
       const s=document.createElement('div');
       s.className='star';
-      const sz=10+Math.random()*12;
-      s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*80+10}%;top:${Math.random()*80+10}%;animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*3}s;`;
+      s.textContent='✦';
+      const sz=12+Math.random()*14;
+      const dx1=(Math.random()-0.5)*40, dy1=-(10+Math.random()*30);
+      const dx2=(Math.random()-0.5)*60, dy2=-(20+Math.random()*50);
+      const rot1=(Math.random()-0.5)*180, rot2=(Math.random()-0.5)*360;
+      s.style.cssText=`font-size:${sz}px;left:${Math.random()*80+10}%;top:${Math.random()*80+10}%;--tx:${dx1}px;--ty:${dy1}px;--tx2:${dx2}px;--ty2:${dy2}px;--tr:${rot1}deg;--tr2:${rot2}deg;`;
       c.appendChild(s);
-      setTimeout(()=>s.remove(),3500);
-    },2800);
+      setTimeout(()=>s.remove(),2400);
+    },700);
   }
 
   /* ── Raccourcis ── */
