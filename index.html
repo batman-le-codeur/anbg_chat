@@ -152,7 +152,12 @@
     #chat-area::-webkit-scrollbar-thumb:hover{background:var(--blue-primary);}
     .messages-container{width:100%;max-width:720px;margin:0 auto;padding:0 12px;}
     #bottom-input-zone{position:fixed;left:0;right:0;bottom:0;z-index:90;display:none;justify-content:center;padding:10px 12px 16px;background:var(--bg);touch-action:none;overscroll-behavior:none;transition:left .3s cubic-bezier(.4,0,.2,1);}
-    #bottom-input-zone .input-shell{max-width:720px;width:100%;touch-action:auto;}
+    #bottom-input-zone .input-outer{max-width:720px;width:100%;touch-action:auto;}
+    #bottom-input-zone .input-shell{width:100%;touch-action:auto;}
+    #welcome-input-wrap .input-disclaimer{display:none;}
+    .input-disclaimer{text-align:center;font-size:10.5px;color:var(--muted);margin-top:6px;line-height:1.4;}
+    .input-disclaimer a{color:var(--yellow);font-weight:500;text-decoration:none;}
+    .input-disclaimer a:hover{text-decoration:underline;}
 
     /* INPUT */
     .input-shell{background:var(--surface);border:1px solid var(--border);border-radius:14px;transition:box-shadow .2s;width:100%;max-width:100%;overflow:hidden;}
@@ -224,10 +229,8 @@
 
     /* MÉDIAS */
     .sources-row{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 10px;}
-    .src-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:20px;background:var(--surface);border:1px solid var(--border);text-decoration:none;font-size:11px;font-weight:500;color:var(--text);transition:border-color .18s,color .18s;max-width:170px;}
-    .src-chip:hover{border-color:var(--blue-primary);color:var(--blue-primary);}
-    .src-chip img{width:13px;height:13px;border-radius:2px;flex-shrink:0;}
-    .src-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .src-num-card{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);text-decoration:none;font-size:13px;font-weight:700;color:var(--blue-primary);transition:background .18s,border-color .18s,color .18s;}
+    .src-num-card:hover{background:var(--blue-primary);color:white;border-color:var(--blue-primary);}
     .src-num{width:15px;height:15px;border-radius:50%;background:var(--blue-primary);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     .media-rich{display:flex;flex-direction:column;gap:10px;}
     .media-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
@@ -383,7 +386,7 @@
         <svg class="suggestion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>
         <span class="suggestion-text">Montants des bourses</span>
       </div>
-      <a href="https://reclamation-mu63.onrender.com/reclamations/nouvelle" class="suggestion-item" style="text-decoration:none;">
+      <a href="https://vps-92c74632.vps.ovh.net/reclamations/nouvelle" class="suggestion-item" style="text-decoration:none;">
         <svg class="suggestion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         <span class="suggestion-text">Faire une e-réclamation</span>
       </a>
@@ -405,7 +408,7 @@
       </button>
       <a href="https://www.anbg-ga.com/" target="_blank" class="header-logo-wrap">
         <div class="header-logo-container">
-          <img class="header-logo" src="https://reclamation-mu63.onrender.com/Logo_anbg.png" alt="ANBG">
+          <img class="header-logo" src="https://vps-92c74632.vps.ovh.net/Logo_anbg.png" alt="ANBG">
         </div>
         <div class="header-brand-text">
           <div class="header-brand-name">Agence Nationale des Bourses du Gabon</div>
@@ -435,7 +438,7 @@
       <p class="welcome-sub">Posez vos questions sur les bourses, les candidatures et les programmes d'études financés par l'ANBG.</p>
       <div id="welcome-input-wrap"></div>
       <div class="cards-grid">
-        <a href="https://reclamation-mu63.onrender.com/reclamations/nouvelle" class="card-link">
+        <a href="https://vps-92c74632.vps.ovh.net/reclamations/nouvelle" class="card-link">
           <div class="card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
           <div class="card-content"><div class="card-title">Faire une e-réclamation</div><div class="card-desc">Déposer une réclamation en ligne</div></div>
         </a>
@@ -459,30 +462,33 @@
 </div>
 
 <template id="input-template">
-  <div class="input-shell">
-    <textarea rows="1" placeholder="Posez votre question ..."></textarea>
-    <div class="input-actions">
-      <div class="left-toolbar">
-        <a href="https://anbg.online/accueil" target="_blank" class="toolbar-link ebourse">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> eBourse
-        </a>
-        <a href="https://reclamation-mu63.onrender.com/reclamations/nouvelle" class="toolbar-link ereclamation">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> eReclamation
-        </a>
-        <a href="https://www.anbg-ga.com/" target="_blank" class="toolbar-link site">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Site
-        </a>
+  <div class="input-outer">
+    <div class="input-shell">
+      <textarea rows="1" placeholder="Posez votre question ..."></textarea>
+      <div class="input-actions">
+        <div class="left-toolbar">
+          <a href="https://anbg.online/accueil" target="_blank" class="toolbar-link ebourse">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> eBourse
+          </a>
+          <a href="https://vps-92c74632.vps.ovh.net/reclamations/nouvelle" class="toolbar-link ereclamation">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> eReclamation
+          </a>
+          <a href="https://www.anbg-ga.com/" target="_blank" class="toolbar-link site">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Site
+          </a>
+        </div>
+        <button class="send-btn">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </button>
       </div>
-      <button class="send-btn">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
-      </button>
     </div>
+    <p class="input-disclaimer">L'assistant peut faire des erreurs · <a href="https://vps-92c74632.vps.ovh.net/reclamations/nouvelle" target="_blank" rel="noopener noreferrer">eRéclamation</a></p>
   </div>
 </template>
 
 <script>
 (function() {
-  const WEBHOOK  = 'https://n8n.e-reclamation.tech/webhook/chat';
+  const WEBHOOK  = 'https://vps-92c74632.vps.ovh.net/webhook/chat';
   const LOGO_URL = 'https://www.anbg.online/assets/logo/logo.png';
   // Timeout 55s pour couvrir les réseaux mobiles lents
   const FETCH_TIMEOUT_MS = 55000;
@@ -647,14 +653,14 @@
   }
   function renderMediaCards(arr){
     if(!arr||!arr.length) return'';
-    const chips=arr.map((m,i)=>`<a href="${m.url}" target="_blank" class="src-chip"><span class="src-num">${i+1}</span><img src="${_fav(m.url)}" alt="" onerror="this.style.display='none'" loading="lazy"><span>${_dom(m.url)}</span></a>`).join('');
+    const nums=arr.map((m,i)=>`<a href="${m.url}" target="_blank" rel="noopener noreferrer" class="src-num-card" title="${(m.title||_dom(m.url)).replace(/"/g,'&quot;')}">${i+1}</a>`).join('');
     const vis=arr.filter(m=>m.type==='video'||m.type==='image');
     const oth=arr.filter(m=>m.type!=='video'&&m.type!=='image');
     let med='';
     if(vis.length>=2) med+=`<div class="media-grid2">${vis.map(_renderItem).join('')}</div>`;
     else med+=vis.map(_renderItem).join('');
     if(oth.length) med+=`<div class="media-rich"${vis.length?' style="margin-top:10px"':''}>${oth.map(_renderItem).join('')}</div>`;
-    return`<div class="sources-row">${chips}</div><div class="media-rich">${med}</div>`;
+    return`<div class="sources-row">${nums}</div><div class="media-rich">${med}</div>`;
   }
 
   /* ── Badge ── */
