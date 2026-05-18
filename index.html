@@ -145,7 +145,7 @@
 
     /* CHAT */
     #chat-wrapper{flex:1;display:none;flex-direction:column;overflow:hidden;width:100%;max-width:100%;}
-    #chat-area{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 0 130px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+    #chat-area{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px 0 180px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
     #chat-area::-webkit-scrollbar{width:4px;}
     #chat-area::-webkit-scrollbar-track{background:transparent;}
     #chat-area::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px;opacity:.5;}
@@ -228,10 +228,8 @@
     .msg-badge.inscription{background:rgba(142,68,173,.15);color:#8e44ad;}
 
     /* MÉDIAS */
-    .sources-row{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 10px;}
-    .src-num-card{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 8px;border-radius:8px;background:var(--surface);border:1px solid var(--border);text-decoration:none;font-size:13px;font-weight:700;color:var(--blue-primary);transition:background .18s,border-color .18s,color .18s;}
-    .src-num-card:hover{background:var(--blue-primary);color:white;border-color:var(--blue-primary);}
-    .src-num{width:15px;height:15px;border-radius:50%;background:var(--blue-primary);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .mc-num{min-width:22px;height:22px;padding:0 6px;border-radius:6px;background:white;color:var(--blue-primary);border:1.5px solid var(--border);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.12);flex-shrink:0;align-self:center;}
+    .mc-vthumb .mc-num,.mc-image .mc-num{position:absolute;top:8px;right:8px;z-index:3;pointer-events:none;align-self:unset;}
     .media-rich{display:flex;flex-direction:column;gap:10px;}
     .media-grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
     @media(max-width:500px){.media-grid2{grid-template-columns:1fr;}}
@@ -488,7 +486,7 @@
 
 <script>
 (function() {
-  const WEBHOOK  = 'https://vps-92c74632.vps.ovh.net/webhook/chat';
+  const WEBHOOK  = 'https://n8n.e-reclamation.tech/webhook/chat';
   const LOGO_URL = 'https://www.anbg.online/assets/logo/logo.png';
   // Timeout 55s pour couvrir les réseaux mobiles lents
   const FETCH_TIMEOUT_MS = 55000;
@@ -622,45 +620,45 @@
   function _dom(u){try{return new URL(u).hostname.replace('www.','');}catch{return u;}}
   function _fav(u){try{return`https://www.google.com/s2/favicons?sz=32&domain=${new URL(u).hostname}`;}catch{return'';}}
 
-  function _rVideo(m){
+  function _rVideo(m,n){
     const vid=_ytId(m.url), th=vid?`https://img.youtube.com/vi/${vid}/mqdefault.jpg`:(m.thumbnail||'');
     const ch=m.channel||'', dur=m.duration||'';
-    return`<a href="${m.url}" target="_blank" class="mc-video"><div class="mc-vthumb">${th?`<img src="${th}" alt="${m.title||''}" loading="lazy" onerror="this.src=''">`:''}<div class="mc-voverlay"></div><div class="mc-play"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div class="mc-yt"><svg width="10" height="10" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="white"/></svg> YouTube</div>${dur?`<div class="mc-dur">${dur}</div>`:''}</div><div class="mc-vbody"><div class="mc-vtitle">${m.title||'Vidéo YouTube'}</div>${ch?`<div class="mc-vsub">${ch}</div>`:(m.description?`<div class="mc-vsub">${m.description}</div>`:'')}</div></a>`;
+    return`<a href="${m.url}" target="_blank" class="mc-video"><div class="mc-vthumb">${th?`<img src="${th}" alt="${m.title||''}" loading="lazy" onerror="this.src=''">`:''}<div class="mc-voverlay"></div><div class="mc-play"><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg></div><div class="mc-yt"><svg width="10" height="10" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="white"/></svg> YouTube</div>${dur?`<div class="mc-dur">${dur}</div>`:''}<span class="mc-num">${n}</span></div><div class="mc-vbody"><div class="mc-vtitle">${m.title||'Vidéo YouTube'}</div>${ch?`<div class="mc-vsub">${ch}</div>`:(m.description?`<div class="mc-vsub">${m.description}</div>`:'')}</div></a>`;
   }
-  function _rDoc(m){
+  function _rDoc(m,n){
     const ext=(m.url.split('.').pop()||'PDF').toUpperCase().slice(0,4);
-    return`<a href="${m.url}" target="_blank" class="mc-doc"><div class="mc-dico"><div class="mc-dico-lines"><span></span><span></span><span></span></div><div class="mc-dico-ext">${ext}</div></div><div class="mc-dbody"><div class="mc-dlabel">Document</div><div class="mc-dtitle">${m.title||'Document'}</div>${m.description?`<div class="mc-ddesc">${m.description}</div>`:''}</div><a href="${m.url}" target="_blank" download class="mc-ddl" onclick="event.stopPropagation()" title="Télécharger"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a></a>`;
+    return`<a href="${m.url}" target="_blank" class="mc-doc"><div class="mc-dico"><div class="mc-dico-lines"><span></span><span></span><span></span></div><div class="mc-dico-ext">${ext}</div></div><div class="mc-dbody"><div class="mc-dlabel">Document</div><div class="mc-dtitle">${m.title||'Document'}</div>${m.description?`<div class="mc-ddesc">${m.description}</div>`:''}</div><span class="mc-num">${n}</span><a href="${m.url}" target="_blank" download class="mc-ddl" onclick="event.stopPropagation()" title="Télécharger"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a></a>`;
   }
-  function _rLink(m){
-    return`<a href="${m.url}" target="_blank" class="mc-link"><div class="mc-lbar"></div><div class="mc-lbody"><div class="mc-ltop"><img class="mc-lfav" src="${_fav(m.url)}" alt="" onerror="this.style.display='none'" loading="lazy"><span class="mc-ldom">${_dom(m.url)}</span></div><div class="mc-ltitle">${m.title||_dom(m.url)}</div>${m.description?`<div class="mc-ldesc">${m.description}</div>`:''}</div><div class="mc-larr"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div></a>`;
+  function _rLink(m,n){
+    return`<a href="${m.url}" target="_blank" class="mc-link"><div class="mc-lbar"></div><div class="mc-lbody"><div class="mc-ltop"><img class="mc-lfav" src="${_fav(m.url)}" alt="" onerror="this.style.display='none'" loading="lazy"><span class="mc-ldom">${_dom(m.url)}</span></div><div class="mc-ltitle">${m.title||_dom(m.url)}</div>${m.description?`<div class="mc-ldesc">${m.description}</div>`:''}</div><span class="mc-num">${n}</span><div class="mc-larr"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></div></a>`;
   }
-  function _rArticle(m){
+  function _rArticle(m,n){
     const th=m.thumbnail?`<img src="${m.thumbnail}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<div class=mc-afallback></div>'">`:`<div class="mc-afallback"></div>`;
-    return`<a href="${m.url}" target="_blank" class="mc-article"><div class="mc-athumb">${th}</div><div class="mc-abody"><div class="mc-alabel">Article</div><div class="mc-atitle">${m.title||''}</div>${m.description?`<div class="mc-adesc">${m.description}</div>`:''}<div class="mc-asrc">${_dom(m.url)}</div></div></a>`;
+    return`<a href="${m.url}" target="_blank" class="mc-article"><div class="mc-athumb">${th}</div><div class="mc-abody"><div class="mc-alabel">Article</div><div class="mc-atitle">${m.title||''}</div>${m.description?`<div class="mc-adesc">${m.description}</div>`:''}<div class="mc-asrc">${_dom(m.url)}</div></div><span class="mc-num">${n}</span></a>`;
   }
-  function _rImage(m){
+  function _rImage(m,n){
     const eid='i'+Math.random().toString(36).substr(2,5), cap=(m.title||'').replace(/'/g,"\\'");
-    return`<div class="mc-image" onclick="lbOpen('${m.url}','${cap}')"><img id="${eid}" src="${m.url}" alt="${m.title||''}" loading="lazy" onerror="document.getElementById('${eid}').parentElement.style.display='none'"><div class="mc-izoom"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></div>${m.description?`<div class="mc-icap">${m.description}</div>`:''}</div>`;
+    return`<div class="mc-image" onclick="lbOpen('${m.url}','${cap}')"><img id="${eid}" src="${m.url}" alt="${m.title||''}" loading="lazy" onerror="document.getElementById('${eid}').parentElement.style.display='none'"><div class="mc-izoom"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></div><span class="mc-num">${n}</span>${m.description?`<div class="mc-icap">${m.description}</div>`:''}</div>`;
   }
-  function _renderItem(m){
+  function _renderItem(m,n){
     switch(m.type){
-      case'video':    return _rVideo(m);
-      case'document': return _rDoc(m);
-      case'article':  return _rArticle(m);
-      case'image':    return _rImage(m);
-      default:        return _rLink(m);
+      case'video':    return _rVideo(m,n);
+      case'document': return _rDoc(m,n);
+      case'article':  return _rArticle(m,n);
+      case'image':    return _rImage(m,n);
+      default:        return _rLink(m,n);
     }
   }
   function renderMediaCards(arr){
     if(!arr||!arr.length) return'';
-    const nums=arr.map((m,i)=>`<a href="${m.url}" target="_blank" rel="noopener noreferrer" class="src-num-card" title="${(m.title||_dom(m.url)).replace(/"/g,'&quot;')}">${i+1}</a>`).join('');
-    const vis=arr.filter(m=>m.type==='video'||m.type==='image');
-    const oth=arr.filter(m=>m.type!=='video'&&m.type!=='image');
+    const indexed=arr.map((m,i)=>({m,i}));
+    const vis=indexed.filter(({m})=>m.type==='video'||m.type==='image');
+    const oth=indexed.filter(({m})=>m.type!=='video'&&m.type!=='image');
     let med='';
-    if(vis.length>=2) med+=`<div class="media-grid2">${vis.map(_renderItem).join('')}</div>`;
-    else med+=vis.map(_renderItem).join('');
-    if(oth.length) med+=`<div class="media-rich"${vis.length?' style="margin-top:10px"':''}>${oth.map(_renderItem).join('')}</div>`;
-    return`<div class="sources-row">${nums}</div><div class="media-rich">${med}</div>`;
+    if(vis.length>=2) med+=`<div class="media-grid2">${vis.map(({m,i})=>_renderItem(m,i+1)).join('')}</div>`;
+    else med+=vis.map(({m,i})=>_renderItem(m,i+1)).join('');
+    if(oth.length) med+=`<div class="media-rich"${vis.length?' style="margin-top:10px"':''}>${oth.map(({m,i})=>_renderItem(m,i+1)).join('')}</div>`;
+    return`<div class="media-rich">${med}</div>`;
   }
 
   /* ── Badge ── */
@@ -758,6 +756,10 @@
         const ta = currentInputShell.querySelector('textarea');
         if (ta) { ta.value = ''; ta.style.height = 'auto'; }
       }
+      // Padding basé sur la hauteur réelle de la zone (disclaimer inclus)
+      requestAnimationFrame(()=>{
+        chatArea.style.paddingBottom=(bottomInputZone.offsetHeight+20)+'px';
+      });
     }
 
     addMessage('user', message);
@@ -900,7 +902,7 @@
     function reposition(){
       const kh=Math.max(0,window.innerHeight-vv.offsetTop-vv.height);
       bottomInputZone.style.bottom=kh+'px';
-      chatArea.style.paddingBottom=(130+kh)+'px';
+      chatArea.style.paddingBottom=(bottomInputZone.offsetHeight+20+kh)+'px';
       if(isChatStarted) requestAnimationFrame(()=>{chatArea.scrollTop=chatArea.scrollHeight;});
     }
     vv.addEventListener('resize',reposition);
